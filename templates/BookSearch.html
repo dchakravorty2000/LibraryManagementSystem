@@ -8,3 +8,9 @@
     {{form.searchinput.errors}}
     <button class="submit" type="submit">SUBMIT</button>
 </form>
+
+{% for i in bookdata %}
+
+<div>{{ i.book_name }}</div>
+
+{% endfor %}

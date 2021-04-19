@@ -14,16 +14,50 @@ def BookSearch(request):
         if form.is_valid():
             # populating()
             query = form.cleaned_data.get('searchinput')
-            mango = Books.objects.annotate(search=SearchVector('book_name', 'authorname'),).filter(search=query)
-            apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.1) .order_by('-similarity')
-            print(mango)
-            print(apple)
+            start = Books()
+
+            vector = SearchVector('book_name', weight = 'B', config = 'english') + SearchVector('authorname', weight = 'A', config = 'english')
+            mango = Books.objects.annotate(search = vector).filter(search = SearchQuery(query))
+            
+            if mango:
+                print(mango)
+                return render(request, "BookSearch.html", {'form': form, 'bookdata' : mango})
+
+
+            else:
+                apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.1) .order_by('-similarity')
+                
+                if apple.count() > 3:
+                    print(apple)
+                    return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
+
+                elif apple.count() < 3:
+                    apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.05) .order_by('-similarity')
+                    print(apple)
+                    return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
+
+                elif apple.count() < 3:
+                    apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.03) .order_by('-similarity')
+                    print(apple)
+                    return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
+
+                else:
+                   apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.01) .order_by('-similarity')
+                   print(apple)
+                   return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
+
+                    
+                # print("\nResults From Trigram\n")
+                # print(apple)
+            
+            # print("Search Vector Results \n")
+            # print(mango)
+            # print("\n\nTrigram Results \n")
+            # print(apple)
 
             
 
-    return render(request, "BookSearch.html", {'form': form})
-
-
+    return render(request, "BookSearch.html", {'form': form, 'bookdata' : start})
 
 
 
