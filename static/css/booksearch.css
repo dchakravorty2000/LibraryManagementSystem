@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400;1,500&display=swap');
 
 .container{
-    max-width: 1366px;
+    max-width: 1366px !important;
     padding: 0 !important;
     margin: 0 !important;
 }
@@ -57,6 +57,7 @@
   margin: 1rem 0 2rem 1rem;
   padding: 3rem 2rem 3rem 2rem;
   border-radius: 2rem;
+  box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.10);
 }
 
 .search-results h1{

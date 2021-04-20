@@ -42,7 +42,7 @@ def BookSearch(request):
                     return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
 
                 else:
-                   apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.01) .order_by('-similarity')
+                   apple = Books.objects.annotate(similarity=TrigramSimilarity('authorname', query) + TrigramSimilarity('book_name', query),).filter(similarity__gt=0.03) .order_by('-similarity')
                    print(apple)
                    return render(request, "BookSearch.html", {'form': form, 'bookdata' : apple})
 
