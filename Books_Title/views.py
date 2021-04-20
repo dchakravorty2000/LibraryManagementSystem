@@ -8,7 +8,7 @@ from .populatedata import *
 # Create your views here.
 def BookSearch(request): 
     form = SearchField()
-
+    # start = Books.objects.filter(acc_no = 0)
     if request.method == "POST":
         form = SearchField(request.POST)
         if form.is_valid():
@@ -57,7 +57,7 @@ def BookSearch(request):
 
             
 
-        return render(request, "BookSearch.html", {'form': form, 'bookdata' : start})
+    return render(request, "BookSearch.html", {'form': form})
 
 
 

@@ -17,7 +17,7 @@
 
 
     <div class="row">
-        <div class="sidebar col-md-1"> 
+        <div class="sidebar col-md-1 position-sticky"> 
 
         </div>
 
@@ -27,19 +27,24 @@
                 {% csrf_token %} 
                 {{form.searchinput}}
                 {{form.searchinput.errors}}
-                <button class="submit" type="submit">SUBMIT</button>
+                <button class="submit" type="submit">Search</button>
             </form>
-            
+
+            <div>
             {% for i in bookdata %}
             
-            <div>{{ i.book_name }}</div>
+            <div class="book-card">
+              <h1>{{ i.book_name }}</h1>
+              <h3>{{ i.authorname }}</h3>
+
+            </div>
             
             {% endfor %}
-        
+            </div>
         
         </div>
 
-        <div class="calender-bar col-md-3">
+        <div class="calender-bar col-md-3 position-sticky">
 
         </div>
 
